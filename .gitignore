@@ -38,3 +38,8 @@ Thumbs.db
 testem.log
 /typings/
 .sass-cache/
+
+# Firebase
+.firebase
+*-debug.log
+.runtimeconfig.json
