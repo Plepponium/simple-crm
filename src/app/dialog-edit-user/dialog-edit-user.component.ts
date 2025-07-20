@@ -6,40 +6,37 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { User } from '../../models/user.class';
 import { FormsModule } from '@angular/forms';
-import { Firestore, collection } from '@angular/fire/firestore';
-import { addDoc } from 'firebase/firestore';
+import { Firestore } from '@angular/fire/firestore';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CommonModule } from '@angular/common';
+import { doc, updateDoc } from 'firebase/firestore';
 
 @Component({
-  selector: 'app-dialog-add-user',
+  selector: 'app-dialog-edit-user',
   imports: [CommonModule, MatProgressBarModule, MatDialogActions, MatDialogModule, MatButtonModule, MatInputModule, MatFormFieldModule, MatDatepickerModule, FormsModule],
-  templateUrl: './dialog-add-user.component.html',
-  styleUrl: './dialog-add-user.component.scss'
+  templateUrl: './dialog-edit-user.component.html',
+  styleUrl: './dialog-edit-user.component.scss'
 })
-export class DialogAddUserComponent {
-  user = new User();
-  birthDate!: Date;
+export class DialogEditUserComponent {
   loading = false;
+  user!: User;
+  userId!: string;
 
-  readonly dialogRef = inject(MatDialogRef<DialogAddUserComponent>);
+  readonly dialogRef = inject(MatDialogRef<DialogEditUserComponent>);
   readonly firestore = inject(Firestore);
 
-  async saveUser() {
-    if (!this.birthDate) return;
-
-    this.user.birthDate = this.birthDate.getTime();
+  saveUser() {
     this.loading = true;
+    if (!this.userId) return;
 
-    try {
-      const result = await addDoc(collection(this.firestore, 'users'), { ...this.user });
-      console.log('User saved with ID:', result.id);
-      this.dialogRef.close();
-    } catch (error) {
-      console.error('Error adding user:', error);
-    } finally {
-      this.loading = false;
-    }
+    const userDocRef = doc(this.firestore, 'users', this.userId);
+    updateDoc(userDocRef, this.user.toJSON())
+      .then(() => {
+        this.loading = false;
+        this.dialogRef.close();
+      })
+      .catch((error) => {
+        console.error('Error updating user:', error);
+      });
   }
 }
-

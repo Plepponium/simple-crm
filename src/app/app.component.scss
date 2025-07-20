@@ -13,10 +13,16 @@ mat-toolbar,
 mat-toolbar-row {
   min-height: 56px;
   height: 56px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
 }
 
 .mat-drawer-container {
   height: 100vh;
+}
+
+.content-container {
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.04);
 }
 
 .menu-icon {
@@ -25,15 +31,23 @@ mat-toolbar-row {
 
 .sidenav {
   width: 300px;
+  border-right: 1px solid rgba(0, 0, 0, 0.04);
 }
 
 .logo-container {
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
   padding-left: 16px;
   padding-right: 16px;
-  min-height: 56px;
+  height: 56px;
   display: flex;
-  align-items: center;
+  justify-content: flex-end;
+  align-items: flex-start;
+  background-color: #d6e2ff;
+}
+
+.logo {
+  max-width: 100%;
+  height: 96px;
 }
 
 .menu-items {
@@ -54,7 +68,7 @@ mat-toolbar-row {
     }
 
     &:hover {
-      background-color: #d6e2ff;
+      background-color: rgba(0, 0, 0, 0.04);
     }
 
     &:focus {
@@ -65,5 +79,6 @@ mat-toolbar-row {
 
 .router-container {
   padding-left: 56px;
+  padding-right: 56px;
   padding-top: 16px;
 }
